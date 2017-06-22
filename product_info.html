@@ -1,0 +1,461 @@
+﻿{config_load file="$language/lang.conf" section="product_info"}
+
+{$FORM_ACTION}
+<table width="100%" border="0">
+  <tr>
+    <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+          <td class="prod_main" valign="top">
+
+<h1 class="contentBoxHeading">{$PRODUCTS_NAME}</h1>
+
+{$PRODUCT_NAVIGATOR}
+
+<!-- картинка  и цены -->
+<div class = "mod_space">
+<table border="0" width="100%" cellspacing="0" cellpadding="0">
+  <tr class="contentBoxContents1" valign="top">
+    <td height="90" class="contentBoxContents1" valign="top">
+      <table width="100%" cellpadding="0" cellspacing="5">
+        
+		<tr>
+		 <td class="product_img" style="border:1px solid #CCCCCC; padding:5px;">{$PRODUCTS_IMAGE_BLOCK}</td>
+		 
+		{if $PRODUCTS_MO_IMAGES}
+ <td class="dop_image" align="center">
+<table width="100%" border="0">
+{foreach name=mo_pic item=img_values from=$mo_img}
+  {assign var="counter" value=$smarty.foreach.mo_pic.iteration}
+	{if $counter <= 2}
+    <div class = "d_img">
+	{$img_values.PRODUCTS_MO_IMAGE_BLOCK}
+    </div>
+   {/if}
+{/foreach}
+</table>
+</td>
+
+{else}
+  <td class="dop_image" align="center">
+		 
+</td>
+{/if}
+
+</table>
+</div>
+<br />
+		
+        </td>
+		
+		  <td class="contents products_info" width="25%" valign="top">
+
+{if $PRODUCTS_STOCK eq 1}
+<div class = "prc"><strong >{$PRODUCTS_PRICE}</strong><br /></div>
+
+	<!--<div class="infor"><a href="http://knigovo.com.ua/shop_content.php?coID=2">Цены уточняйте у продавца (причина)</a></div>-->
+<div class = "prod_st">
+<b>Есть на складе</b><br />
+</div>
+
+{else}
+<div class = "no_st">
+Ожидает поступления
+</div>
+{/if}
+
+{foreach name=mo_pic item=img_values from=$mo_img}
+    <div class = "block_akc">
+	  {assign var="counter" value=$smarty.foreach.mo_pic.iteration}
+	   {if $counter == 3}
+	    {if $img_values.PRODUCTS_MO_POPUP_LINK !=''}<div rel="example_group" target="_blank" href="{$img_values.PRODUCTS_MO_POPUP_IMAGE}" title="{$PRODUCTS_NAME}">{/if}<img src="{$img_values.PRODUCTS_MO_IMAGE}" alt="{$PRODUCTS_NAME}" width="80px"; />{if $img_values.PRODUCTS_MO_POPUP_LINK !=''}</div>{/if}&nbsp;	
+	  {/if}	
+    </div> 
+{/foreach} 
+
+<!------------Start---Sales-------------------->  
+	   
+   {if $MODULE_graduated_price !=''}
+  
+   {$MODULE_graduated_price}
+  
+   {/if}
+
+
+{$PRODUCTS_TAX_INFO}
+
+{if $PRODUCTS_SHIPPING_LINK}
+<!--   {$PRODUCTS_SHIPPING_LINK}-->
+{/if}
+<br />
+{if $PRODUCTS_VPE}
+   {$PRODUCTS_VPE}<br />
+{/if}
+{if $PRODUCTS_MODEL!=''}
+{#model#} {$PRODUCTS_MODEL}<br />
+{/if}
+{if $PRODUCTS_DISCOUNT}
+{#text_discount#}&nbsp;{$PRODUCTS_DISCOUNT}<br />
+{/if}
+<!--{#print#}&nbsp;{$PRODUCTS_PRINT}<br />-->
+<!--{#question#}&nbsp;{$ASK_PRODUCT_QUESTION}<br />-->
+{if $SHIPPING_NAME}
+            <table border="0" cellpadding="0" cellspacing="0">
+              <tr valign="middle">
+                <td class="main">{#text_shippingtime#}</td>
+                {if $SHIPPING_IMAGE}<td><img src="{$SHIPPING_IMAGE}" alt="{$SHIPPING_NAME}" /></td>
+                {/if}
+                <td class="main" align="left">&nbsp;{$SHIPPING_NAME}</td>
+              </tr>
+            </table>
+{/if}
+<br />
+{if $MODULE_product_options !=''}
+   {$MODULE_product_options}<br />
+{/if}
+     </td>	
+       
+	 <td class = "block_price">
+	 
+	 
+	 
+	<div class = "prod_cart">	 
+	 {if $PRODUCTS_STOCK eq 1}
+<!-- в корзину -->
+            <table border="0" align="left">
+                  <tr>
+                    <td class = "qty" align="right">
+                    <div class="imp_p">{$ADD_QTY}</div></td>
+                    <td class = "crt" align="left">{$ADD_CART_BUTTON}</td>
+                    </tr>
+            </table>			
+     {else}  
+	 
+	 <table border="0" align="left">
+                  <tr>
+                    <td class = "qty" align="right">
+                    <div class="imp_p">{$ADD_QTY}</div></td>
+                    <td class = "crt_cart" align="left">
+					<input class="imgsub" type="image" src="themes/default_my/buttons/ru/button_bron.gif" alt="Забронировать" title="Забронировать">										
+                    </tr>
+           </table>		
+	 
+            <div class="del_p"></div>
+<!-- /в корзину -->
+	{/if}
+	</div> 		
+<!-- Start Доставка -->	
+<!--
+{if $PRODUCTS_STOCK eq 1}
+ <div class = "delivery" style="display:block"><map name="FPMap{php}echo $cop{/php}">
+<area href="shop_content.php/coID/1/content/Dostavka-i-oplata" target="_blank" onMouseOver="javascript:ShowOrHide('d1{php}echo $cop{/php}')"  onMouseOut="javascript:ShowOrHide('d1{php}echo $cop{/php}')" id='d1{php}echo $cop{/php}-open' shape="rect" coords="17, 24, 52, 46">
+<area href="shop_content.php/coID/1/content/Dostavka-i-oplata" target="_blank" onMouseOver="javascript:ShowOrHide('d2{php}echo $cop{/php}')"  onMouseOut="javascript:ShowOrHide('d2{php}echo $cop{/php}')" id='d2{php}echo $cop{/php}-open' shape="rect" coords="59, 24, 94, 45">
+<area href="shop_content.php/coID/1/content/Dostavka-i-oplata" target="_blank" onMouseOver="javascript:ShowOrHide('d3{php}echo $cop{/php}')"  onMouseOut="javascript:ShowOrHide('d3{php}echo $cop{/php}')" id='d3{php}echo $cop{/php}-open' shape="rect" coords="101, 24, 133, 46">
+<area href="shop_content.php/coID/1/content/Dostavka-i-oplata" target="_blank" onMouseOver="javascript:ShowOrHide('d4{php}echo $cop{/php}')"  onMouseOut="javascript:ShowOrHide('d4{php}echo $cop{/php}')" id='d4{php}echo $cop{/php}-open' shape="rect" coords="138, 21, 171, 46">
+<area href="shop_content.php/coID/1/content/Dostavka-i-oplata" target="_blank" onMouseOver="javascript:ShowOrHide('d5{php}echo $cop{/php}')"  onMouseOut="javascript:ShowOrHide('d5{php}echo $cop{/php}')" id='d5{php}echo $cop{/php}-open' shape="rect" coords="180, 22, 212, 46">
+</map>
+<img border="0" src="{$tpl_path}img/dostavka.png" width="229" height="52" usemap="#FPMap{php}echo $cop{/php}">
+</div>	
+{/if}
+-->
+<div class="v_menu" id='d1{php}echo $cop{/php}' style="display: none; position:absolute;">
+<table border="0" cellpadding="0" style="border-collapse: collapse" width="233">
+<tr><td><img src="{$tpl_path}img/v1.png"></td></tr>
+<tr><td style="background: url({$tpl_path}img/vc.png) repeat-y top">
+<div style="padding:0 13px 5px 13px;">
+
+Доставка <b>"Укрпоштой"</b>. Относительно самый медленный способ доставки. Сроки прибытия на почтовое отделение получателя с момента отправки 4-5 дней.
+<br>
+<b>Стоимость данного вида доставки 25 грн. (т.е. к стоимости заказа будет добавлена стоимость доставки).</b>
+<br>
+Более детальную информацию о доставке и оплате вы можете получить нажав на иконку перевозчика.
+</div>
+</td></tr><tr><td><img src="{$tpl_path}img/vb.png"></td></tr>
+</table>
+</div>
+
+<div class="v_menu" id='d2{php}echo $cop{/php}' style="display: none; position:absolute;">
+<table border="0" cellpadding="0" style="border-collapse: collapse" width="233">
+<tr><td><img src="{$tpl_path}img/v2.png"></td></tr>
+<tr><td style="background: url({$tpl_path}img/vc.png) repeat-y top">
+<div style="padding:0 13px 5px 13px;">
+Доставка транспортной компанией:<b>"Нова пошта"</b>. Относительно быстрый вид доставки. Осуществляется при наличии представительства в городе получателя. Сроки доставки данным способом с момента отправки 1-2 дня.
+<br>
+<b>Стоимость доставки выбранным способом клиент оплачивает самостоятельно (в среднем 30 грн.)</b>
+<br>
+Более детальную информацию о доставке и оплате вы можете получить нажав на иконку перевозчика.
+</div>
+</td></tr><tr><td><img src="{$tpl_path}img/vb.png"></td></tr>
+</table>
+</div>
+
+<div class="v_menu" id='d3{php}echo $cop{/php}' style="display: none; position:absolute;">
+<table border="0" cellpadding="0" style="border-collapse: collapse" width="233">
+<tr><td><img src="{$tpl_path}img/v3.png"></td></tr>
+<tr><td style="background: url({$tpl_path}img/vc.png) repeat-y top">
+<div style="padding:0 13px 5px 13px;">
+Доставка транспортной компанией:<b>"Интайм"</b>. Относительно быстрый вид доставки. Осуществляется при наличии представительства в городе получателя. Сроки доставки данным способом с момента отправки 1-2 дня.
+<br>
+<b>Стоимость доставки выбранным способом клиент оплачивает самостоятельно (в среднем 25 грн.)</b>
+<br>
+Более детальную информацию о доставке и оплате вы можете получить нажав на иконку перевозчика.
+</div>
+</td></tr><tr><td><img src="{$tpl_path}img/vb.png"></td></tr>
+</table>
+</div>
+
+<div class="v_menu" id='d4{php}echo $cop{/php}' style="display: none; position:absolute;">
+<table border="0" cellpadding="0" style="border-collapse: collapse" width="233">
+<tr><td><img src="{$tpl_path}img/v4.png"></td></tr>
+<tr><td style="background: url({$tpl_path}img/vc.png) repeat-y top">
+<div style="padding:0 13px 5px 13px;">
+Доставка курьерской службой:<b>"SKYnet"</b>. Относительно быстрый вид доставки. Осуществляется при наличии представительства в городе получателя. Сроки доставки данным способом с момента отправки 1-2 дня.
+<br>
+<b>Стоимость данного вида доставки 30 грн. (т.е. к стоимости заказа будет добавлена стоимость доставки).</b>
+<br>
+Более детальную информацию о доставке и оплате вы можете получить нажав на иконку перевозчика.
+</div>
+</td></tr><tr><td><img src="{$tpl_path}img/vb.png"></td></tr>
+</table>
+</div>
+
+<div class="v_menu" id='d5{php}echo $cop{/php}' style="display: none; position:absolute;">
+<table border="0" cellpadding="0" style="border-collapse: collapse" width="233">
+<tr><td><img src="{$tpl_path}img/v5.png"></td></tr>
+<tr><td style="background: url({$tpl_path}img/vc.png) repeat-y top">
+<div style="padding:0 13px 5px 13px;">
+Доставка транспортной компанией:<b>"Автолюкс"</b>. Относительно быстрый вид доставки. Осуществляется при наличии представительства в городе получателя. Сроки доставки данным способом с момента отправки 1-2 дня.
+<br>
+<b>Стоимость доставки выбранным способом клиент оплачивает самостоятельно (в среднем 25 грн.)</b>
+<br>
+Более детальную информацию о доставке и оплате вы можете получить нажав на иконку перевозчика.
+</div>
+</td></tr><tr><td><img src="{$tpl_path}img/vb.png"></td></tr>
+</table>
+</div>
+<!-- End Доставка -->		 		 
+	 </td>	 
+	
+     </tr>	 
+	  <td class="main_descr" valign="top" width="100%" colspan = "3">
+	  <div class = "tabs">
+<!-- описание -->
+<table  width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr class="contentBoxContents1" valign="top">
+    <td height="90" class="contentBoxContents1" valign="top">
+      <table border="0" width="100%" cellspacing="5" cellpadding="0">
+        <tr class = "bl">
+
+
+		
+{literal}
+  <script>
+ $(document).ready(function() { 
+   $("#bt-1").click(function(){
+    $(this).addClass("active");
+	  $("#content-1").css("display","block");
+	   $("#bt-2").removeClass("active");
+	   $("#bt-3").removeClass("active");	   	   
+	if(this +'active'){
+	$("#content-2").css("display","none");
+	$("#content-3").css("display","none");
+		}              
+      });
+	$("#bt-2").click(function(){
+	   $(this).addClass("active");
+		$("#content-2").css("display","block");
+	    $("#bt-1").removeClass("active");
+	    $("#bt-3").removeClass("active");	  	   
+    if(this +'active'){
+	$("#content-1").css("display","none");
+	$("#content-3").css("display","none");
+		}	           
+      });
+	$("#bt-3").click(function(){
+	   $(this).addClass("active");
+	    $("#content-3").css("display","block");
+	    $("#bt-1").removeClass("active");
+	    $("#bt-2").removeClass("active");	  	 
+	if(this +'active'){
+	$("#content-1").css("display","none");
+	$("#content-2").css("display","none");
+		}              
+      }); 
+ });
+  </script>
+{/literal}		
+
+
+	<div class = "nav_tabs" >	
+		 <div class="title_descr active" id = "bt-1">
+					<a>Описание товара</a>
+		</div>
+		 <div class="title_atrib" id = "bt-2">
+			<a>Характеристики товара</a>
+		</div> 
+		<div class="title_reviews" id = "bt-3">
+			<a>Отзывы</a>
+		</div> 
+		 
+	</div>	
+		
+		
+        <td class="prod_contents" id = "content-1">
+		  <div class = "descr_cont">
+			
+			<div class = " prod_descr">
+{if $PRODUCTS_DESCRIPTION !=''}
+   {$PRODUCTS_DESCRIPTION}<br />
+{/if}
+			</div>
+<!--Social -->
+	{literal}
+	<script type="text/javascript" src="//yandex.st/share/share.js"
+        charset="utf-8"></script>
+        <div class="yashare-auto-init" data-yashareL10n="ru"
+        data-yashareType="button" data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir,friendfeed,lj">
+		</div> 
+    {/literal}	
+
+		</div>
+<br />
+{if $MODULE_tpt != ''}
+   {$MODULE_tpt}<br />
+{/if}
+        </td>	
+		<td class="mod_adrib" id = "content-2">		 
+			{if $extra_fields_data}
+			{foreach name=aussen item=extra_fields from=$extra_fields_data} 
+			<div class = "mod_info">
+				<b>{$extra_fields.NAME}</b>: {$extra_fields.VALUE}<br /> 
+			</div>
+			{/foreach}
+			{/if}	
+	    </td>	 	
+		  <!--Start Отзывы --->  
+		{if $MODULE_products_reviews != ''}
+		<td>
+				<div class = "otz" id = "content-3">{$MODULE_products_reviews}</div>
+				<br />
+	    </td>
+		{/if}
+<!--End Отзывы --->  
+		  
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- /описание -->
+
+</div>
+          </td>
+	 
+    </table>
+   </td>
+  </tr>
+</table>
+</div>
+<!-- /картинка и цены -->
+          </td>
+        </tr>
+      </table>
+      <table class = "tbl" width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+         
+{if ($PRODUCTS_FSK18=='true') or ($MODULE_graduated_price !='') or $PRODUCTS_MO_IMAGES or $PRODUCTS_IMAGE_LINK!=''}
+          <td>&nbsp;&nbsp;</td>
+          <td valign="top" align="right">
+<!-- картинки, скидки -->
+<table border="0" cellpadding="0" cellspacing="0">
+  <tr class="contentBoxContents1" valign="top">
+    <td height="90" class="contentBoxContents1" valign="top">
+      <table border="0" width="100%" cellspacing="5" cellpadding="0">
+        <tr class = "bl">
+          <td class="contents">
+{if $PRODUCTS_FSK18=='true'}
+  <img src="{$tpl_path}img/fsk18.gif" alt="" /><br />
+{/if}
+{if $MODULE_graduated_price !=''}
+   {$MODULE_graduated_price}<br />
+{/if}
+<!-- more images -->
+ 
+<!-- more images eof -->
+{if $PRODUCTS_IMAGE_LINK!=''}
+  <a href="{$PRODUCTS_IMAGE_LINK}" onclick="window.open(this.href); return false;">{$PRODUCTS_TEXT_ZOOM}</a><br />
+{/if}
+<!-- картинки, скидки -->
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- /картинки, скидки -->
+{/if}
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+{if $PRODUCTS_URL != ''}
+<table width="100%" border="0" class="boxTextBG">
+  <tr>
+    <td align="center">{$PRODUCTS_URL}<br /></td>
+  </tr>
+</table>{/if}
+{if $PRODUCTS_DATE_AVIABLE != ''}
+<table width="100%" border="0" class="boxTextBG">
+  <tr>
+    <td align="center">{$PRODUCTS_DATE_AVIABLE}<br /></td>
+  </tr>
+</table>{/if}
+{*
+{if $PRODUCTS_ADDED != ''}
+<table width="100%" border="0" class="boxTextBG">
+  <tr>
+    <td align="center">{$PRODUCTS_ADDED}<br /></td>
+  </tr>
+</table>{/if}
+*}
+
+
+
+
+
+{if $MODULE_products_media != ''}
+  <table width="100%" border="0">
+    <tr>
+      <td align="center">{$MODULE_products_media}<br /></td>
+    </tr>
+  </table>
+{/if} 
+<!--Start Рекомендуемые товары ---> 
+{if $MODULE_cross_selling != ''}
+<table width="100%" border="0">
+  <tr>
+    <td align="center">{$MODULE_cross_selling}<br /></td>
+  </tr>
+</table>
+{/if} 
+<!--End Рекомендуемые товары --->  
+<!--Start Обратите внимание ---> 
+{if $MODULE_reverse_cross_selling != ''}
+<table class = "block_obr_vnm" width="100%" border="0">
+  <tr>
+    <td align="center">{$MODULE_reverse_cross_selling}<br /></td>
+  </tr>
+</table>
+{/if}
+<!--End Обратите внимание ---> 
+{if $MODULE_also_purchased != ''}
+<table class = "block_soputs" width="100%" border="0">
+    <tr>
+      <td align="center">{$MODULE_also_purchased}</td>
+    </tr>
+  </table>{/if}
+
+{$FORM_END}
